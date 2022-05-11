@@ -1,38 +1,27 @@
-import React, {ButtonHTMLAttributes, DetailedHTMLProps} from 'react';
+import React from 'react';
 import cn from "classnames";
+import s from './style.module.scss'
 
 export interface ButtonProps {
     buttonText: string,
-    svg?: string | SVGAElement,
     className?: string,
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
-    isDisabled?: boolean,
-    type?: "button" | "submit" | "reset"
-}
-
-export enum ButtonType {
-    primary = 'btn-primary',
-    secondary = 'btn-secondary',
-    link = 'btn-link',
+    type?: "button" | "submit"
 }
 
 const Button: React.FC<ButtonProps>
         = ({
                buttonText,
-               svg,
-               className = ButtonType.primary,
+               className,
                onClick,
-               isDisabled = false,
                type = 'button'
            }) => {
     return (
-            <button
-                    className={cn('btn', className, {['disabled']: isDisabled})}
+            <button className={cn(s.btn, className)}
                     type={type}
                     onClick={onClick}
             >
                 {buttonText}
-                {svg}
             </button>
     )
 }

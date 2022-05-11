@@ -7,21 +7,29 @@ interface IFormInput {
     value: string,
     type?: string,
     handleChange: ChangeEventHandler<HTMLElement>,
-    required?: boolean
 }
 
-const FormInput: React.FC<IFormInput> = ({id, labelText, type = 'text', value, handleChange, required = false}) => {
+const FormInput: React.FC<IFormInput> = ({
+                                             id,
+                                             labelText,
+                                             type = 'text',
+                                             value,
+                                             handleChange,
+                                         }) => {
     return (
         <div className={s.formInput}>
-            <label
-                htmlFor={id} className={s.formInput_label}>{labelText}</label>
+            <label htmlFor={id}
+                   className={s.formInput_label}
+            >
+                {labelText}
+            </label>
             <input type={type}
                    id={id}
                    name={id}
                    value={value}
                    onChange={handleChange}
                    className={s.formInput_input}
-                   required={required}/>
+            />
         </div>
     );
 };

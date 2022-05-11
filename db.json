@@ -1,25 +1,25 @@
 {
-  "chords": [
+  "users": [
     {
-      "body": {
-        "lat": 55.75322,
-        "lng": 37.622513
-      },
-      "id": 0
+      "id": 1,
+      "name": "Admin",
+      "surname": "Admin",
+      "email": "admin",
+      "pass": "admin"
     },
     {
-      "body": {
-        "lat": 54.99022172004893,
-        "lng": 31.025390625000004
-      },
-      "id": 1
+      "id": 2,
+      "name": "John",
+      "surname": "Sina",
+      "email": "bossofthegym@gym.ml",
+      "pass": "sTr0ng_Pa$$"
     },
     {
-      "body": {
-        "lat": 61.64816245852389,
-        "lng": 34.27734375000001
-      },
-      "id": 2
+      "id": 3,
+      "name": "Bob",
+      "surname": "Dylan",
+      "email": "bobdylan@gg.fs",
+      "pass": "password"
     }
   ]
 }

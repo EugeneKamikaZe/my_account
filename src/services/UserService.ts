@@ -1,7 +1,7 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
-import {IUser} from "../store/reducers/UsersFetch/UserSlice";
+import {IUser} from "../models/user";
 
-export const postAPI = createApi({
+export const userAPI = createApi({
     reducerPath: 'userAPI',
     baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:3009'}),
     tagTypes: ['User'],
@@ -13,27 +13,27 @@ export const postAPI = createApi({
                     _limit: limit
                 }
             }),
-            providesTags: res => ['User']
+            providesTags: ['User']
         }),
         createUser: build.mutation<IUser, IUser>({
-            query: (post) => ({
+            query: (user) => ({
                 url: `/users`,
                 method: 'POST',
-                body: post
+                body: user
             }),
             invalidatesTags: ['User']
         }),
         editUser: build.mutation<IUser, IUser>({
-            query: (post) => ({
-                url: `/users/${post.id}`,
+            query: ({id, ...user}) => ({
+                url: `/users/${id}`,
                 method: 'PUT',
-                body: post
+                body: user
             }),
             invalidatesTags: ['User']
         }),
         deleteUser: build.mutation<IUser, IUser>({
-            query: (post) => ({
-                url: `/users/${post.id}`,
+            query: (user) => ({
+                url: `/users/${user.id}`,
                 method: 'DELETE',
             }),
             invalidatesTags: ['User']

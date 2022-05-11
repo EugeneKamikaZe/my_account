@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect} from 'react';
+import {Route, Routes} from "react-router-dom";
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import AuthPage from "./pages/Auth";
+import HomePage from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import {useAppDispatch, useAppSelector} from "./hooks/redux";
+import {checkLogin} from "./store/reducers/CheckLogin/ActionCreator";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const dispatch = useAppDispatch()
+    const {isLogin} = useAppSelector(state => state.loginReducer)
+
+    useEffect(() => {
+        dispatch(checkLogin())
+    }, [])
+
+    return (
+        <>
+            <Routes>
+                <Route path='/' element={<AuthPage/>}/>
+
+                {
+                    isLogin && <Route path='home' element={<HomePage/>}/>
+                }
+
+                <Route path="*" element={<NotFound/>}/>
+            </Routes>
+            <ToastContainer/>
+        </>
+    );
 }
 
 export default App;

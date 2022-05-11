@@ -1,37 +1,22 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchUsers} from "./ActionCreator";
-import {IUser} from "../../../models/user";
+import {createSlice} from "@reduxjs/toolkit";
 
-interface UserState {
-    users: IUser[],
-    isLoading: boolean,
-    isError: string
+interface LoginState {
+    isLogin: boolean,
 }
 
-const initialState: UserState = {
-    users: [],
-    isLoading: false,
-    isError: ''
+const initialState: LoginState = {
+    isLogin: false,
 }
 
-export const userSlice = createSlice({
-    name: 'user',
+export const loginSlice = createSlice({
+    name: 'isLogin',
     initialState,
-    reducers: {},
-    extraReducers: {
-        [fetchUsers.fulfilled.type]: (state, action: PayloadAction<IUser[]>) => {
-            state.isLoading = false
-            state.isError = ''
-            state.users = action.payload
-        },
-        [fetchUsers.pending.type]: (state) => {
-            state.isLoading = true
-        },
-        [fetchUsers.rejected.type]: (state, action: PayloadAction<string>) => {
-            state.isLoading = false
-            state.isError = action.payload
+    reducers: {
+        change: (state) => {
+          state.isLogin = true
         }
-    }
+    },
 })
 
-export default userSlice.reducer
+export const {change} = loginSlice.actions
+export default loginSlice.reducer

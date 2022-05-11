@@ -1,23 +1,25 @@
-import React, {useState} from 'react';
-import {Route, Routes, Navigate, useNavigate} from "react-router-dom";
-
-import SvgIcon from "../../components/SvgIcon";
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import {fetchUsers} from "../../store/reducers/UsersFetch/ActionCreator";
 
 import s from './style.module.scss'
-import cn from "classnames";
 
-import FormInput from "../../components/Form/Input";
-import FormCheckBox from "../../components/Form/CheckBox";
-import Button, {ButtonType} from "../../components/Button";
-import Heading from "../../components/Typography/Heading";
-import Form from "../../components/Form";
-import CreateAcc from "./CreateAcc";
-import ForgotPass from "./ForgotPass";
+import Button from "../../components/Button/Button";
+import FormInput from "../../components/Input";
+import {change} from "../../store/reducers/CheckLogin/LoginSlice";
 
 const AuthPage: React.FC = () => {
     const navigate = useNavigate()
-    const [isForgotPass, setIsForgotPass] = useState(false)
-    const [isCreateAcc, setIsCreateAcc] = useState(false)
+    const dispatch = useAppDispatch()
+    const {users} = useAppSelector(state => state.userReducer)
+
+    useEffect(() => {
+        dispatch(fetchUsers())
+    }, [])
+
+    const [isLoginError, setIsLoginError] = useState(false)
     const [login, setLogin] = useState(() => {
         return {
             email: "",
@@ -34,94 +36,48 @@ const AuthPage: React.FC = () => {
         })
     }
 
-    const handleFormSubmit = (e: React.SyntheticEvent) => {
-        navigate('/home')
+    const handleFormSubmit = () => {
+        if (login.email.length === 0 || login.password.length === 0) {
+            toast.warn('Need to fill all')
+        } else {
+            users.filter((val) => {
+                if (val.email === login.email && val.pass === login.password) {
+                    dispatch(change())
+                    setIsLoginError(false)
+                    navigate('/home')
+                } else {
+                    setIsLoginError(true)
+                }
+            })
+        }
+
+        isLoginError && toast.error('Invalid login or password')
     }
 
     return (
-        <div className={s.page}>
-
+        <>
             <div className={s.authForm}>
-                <SvgIcon icon='logo' height={40} width={40}/>
+                <h1 className={s.title}>Sign In</h1>
 
-                {
-                    isCreateAcc &&
-                    <CreateAcc handleLinkChange={() => {
-                        setIsCreateAcc(false)
-                        setIsForgotPass(false)
-                    }}/>
-                }
+                <div className={s.form}>
+                    <FormInput handleChange={handleInputChange}
+                               id='email'
+                               labelText='Email Address'
+                               value={login.email}/>
+                    <FormInput handleChange={handleInputChange}
+                               type='password'
+                               id='password'
+                               labelText='Password'
+                               value={login.password}/>
 
-                {
-                    isForgotPass &&
-                    <ForgotPass handleLinkChange={() => {
-                        setIsCreateAcc(false)
-                        setIsForgotPass(false)
-                    }}/>
-                }
-
-                {
-                    !isCreateAcc && !isForgotPass &&
-                    <>
-                        <Heading headerText='Sign In to 1Ci Account' level={2} className={s.title}/>
-
-                        <Form onSubmit={handleFormSubmit} className={s.form}>
-                            <FormInput handleChange={handleInputChange}
-                                       id='email'
-                                       labelText='Email Address'
-                                       value={login.email}/>
-                            <FormInput handleChange={handleInputChange}
-                                       type='password'
-                                       id='password'
-                                       labelText='Password'
-                                       value={login.password}/>
-
-                            <FormCheckBox text='Remember me' name='remember' className={s.formCheckbox}/>
-
-                            <Button buttonText='Sign In'
-                                    type='submit'
-                                    className={cn(ButtonType.primary, s.confirmBtn)}/>
-                        </Form>
-
-                        <Button onClick={(e) => {
-                            e.preventDefault()
-                            setIsForgotPass(true)
-                        }}
-                                buttonText="Forgot password?"
-                                className={cn(ButtonType.link, 'mt-8')}/>
-
-                        <p className={s.ttt}>Don't have an account? &nbsp;
-                            <Button onClick={(e) => {
-                                e.preventDefault()
-                                setIsCreateAcc(true)
-                            }}
-                                    buttonText="Create one"
-                                    className={ButtonType.link}/>
-                        </p>
-                    </>
-                }
+                    <Button buttonText='Submit'
+                            type='submit'
+                            className={s.confirmBtn}
+                            onClick={handleFormSubmit}/>
+                </div>
             </div>
-
-            <div className={s.footer}>
-                <div className={s.copy}>© 2022 1C International</div>
-                <ul className={s.list}>
-                    <li className={s.listItem}>
-                        <a className={s.listItem_link} href="/information/privacy_policy/">Privacy
-                            Policy</a>
-                    </li>
-                    <li className={s.listItem}>
-                        <a className={s.listItem_link} href="/information/cookie_policy/">Cookie
-                            Policy</a>
-                    </li>
-                    <li className={s.listItem}>
-                        <a className={s.listItem_link} href="/information/terms_of_use/">Terms of
-                            Use</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        </>
     );
 }
-;
 
 export default AuthPage;
