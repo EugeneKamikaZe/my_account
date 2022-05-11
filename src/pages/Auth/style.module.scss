@@ -1,0 +1,88 @@
+@import "./src/scss/utilites/variables";
+
+.page {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+
+  max-width: 1140px;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+
+.authForm {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  width: 352px;
+  margin-top: 112px;
+}
+
+.form {
+  width: 100%;
+}
+
+.title {
+  margin: 16px 0 56px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+  margin: 112px 0 24px;
+}
+
+.copy {
+  color: $gray-600;
+}
+
+.list {
+  display: flex;
+
+  list-style: none;
+}
+
+.listItem {
+  padding-left: 16px;
+
+  &_link {
+  	text-decoration: none;
+
+  	color: $gray-600;
+  }
+}
+
+.confirmBtn {
+  margin: 16px auto 0;
+  padding: 8px 32px;
+}
+
+.ttt {
+  display: flex;
+
+  margin-top: 24px;
+}
+
+.formCheckbox {
+  text-align: left;
+}
+
+.descr {
+  margin: 16px 0 8px;
+
+  color: $gray-600;
+
+  font-size: 11px;
+
+  a {
+  	text-decoration: none;
+
+  	font-size: 11px;
+  }
+}
