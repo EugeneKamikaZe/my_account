@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+## Before start
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+use `npm install` in the project root folder
 
 ## Available Scripts
 
@@ -11,6 +11,8 @@ In the project directory, you can run:
 Runs the app in the development mode with json-server.\
 Open [http://localhost:3008](http://localhost:3008) to view it in the browser.\
 Open [http://localhost:3009](http://localhost:3009) to view database.
+
+if something doesn't work - run the scripts separately
 
 ### `npm start-react`
 
